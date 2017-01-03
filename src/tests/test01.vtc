@@ -1,4 +1,4 @@
-varnishtest "Test example vmod"
+varnishtest "Test str vmod"
 
 server s1 {
        rxreq
@@ -7,28 +7,28 @@ server s1 {
 
 varnish v1 -vcl+backend {
 	import std;
-	import ${vmod_example};
+	import ${vmod_str};
 
 	sub vcl_init {
-		std.log(example.info());
+		std.log(str.info());
 	}
 
 	sub vcl_deliver {
-		set resp.http.hello = example.hello("World");
-		set resp.http.info = example.info();
+		set resp.http.hello = str.hello("World");
+		set resp.http.info = str.info();
 	}
 } -start
 
 logexpect l1 -v v1 -g raw -d 1 {
 	expect 0 0    CLI     {^Rd vcl.load}
-	expect 0 =    VCL_Log {^vmod_example loaded at }
+	expect 0 =    VCL_Log {^vmod_str loaded at }
 } -start
 
 client c1 {
 	txreq -url "/"
 	rxresp
 	expect resp.http.hello == "Hello, World"
-	expect resp.http.info  ~  "^vmod_example warmed at "
+	expect resp.http.info  ~  "^vmod_str warmed at "
 }
 
 client c1 -run
