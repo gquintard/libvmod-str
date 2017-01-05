@@ -43,7 +43,10 @@ $Function INT count(STRING s)
 
 Returns the number of ascii characters in S, or -1 if S is null.
 
-$Function STRING take(STRING s, INT n)
+$Function STRING take(STRING s, INT n, INT offset = 0)
 
 Returns a string composed of the N first characters of S. If S is shorter than N
 character, the return string is truncated. If S is NULL, NULL is returned.
+
+A negative offset means "from the end of the string" and a negative n means
+"left of the offset".
