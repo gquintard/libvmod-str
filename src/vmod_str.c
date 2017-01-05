@@ -50,6 +50,17 @@ vmod_endswith(VRT_CTX, VCL_STRING s1, VCL_STRING s2)
 	return (!strcmp(p, s2));
 }
 
+VCL_BOOL
+vmod_contains(VRT_CTX, VCL_STRING s1, VCL_STRING s2)
+{
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	if (strstr(s1, s2))
+		return (1);
+	else
+		return (0);
+}
+
 VCL_STRING
 vmod_take(VRT_CTX, VCL_STRING s, VCL_INT n, VCL_INT o)
 {
