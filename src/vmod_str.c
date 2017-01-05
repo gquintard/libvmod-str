@@ -85,3 +85,72 @@ vmod_hello(VRT_CTX, VCL_STRING name)
 	WS_Release(ctx->ws, v);
 	return (p);
 }
+
+VCL_INT
+vmod_count(VRT_CTX, VCL_STRING s)
+{
+	if (s == NULL)
+		return (-1);
+	else
+		return (strlen(s));
+}
+
+
+VCL_BOOL
+vmod_startswith(VRT_CTX, VCL_STRING s1, VCL_STRING s2)
+{
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (*s2) {
+		if (!*s1)
+			return (0);
+		s1++;
+		s2++;
+	}
+	return (1);
+}
+
+VCL_BOOL
+vmod_endswith(VRT_CTX, VCL_STRING s1, VCL_STRING s2)
+{
+	const char *p;
+
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	p = s1 + strlen(s1) - strlen(s2);
+
+	if (p < s1)
+		return (0);
+
+	return (!strcmp(p, s2));
+}
+
+VCL_STRING
+vmod_take(VRT_CTX, VCL_STRING s, VCL_INT n)
+{
+	char *p;
+	size_t l;
+
+	if (s == NULL)
+		return (NULL);
+
+	l = strlen(s);
+	if (n < 0)
+		n = 0;
+	if (l < n)
+		n = l;
+
+	if (n >= WS_Reserve(ctx->ws, n + 1)) {
+		WS_Release(ctx->ws, 0);
+		return (NULL);
+	}
+
+	p = ctx->ws->f;		/* Front of workspace area */
+	memcpy(p, s, n);
+	p[n] = '\0';
+
+	/* Update work space with what we've used */
+	WS_Release(ctx->ws, n + 1);
+
+	return (p);
+}

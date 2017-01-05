@@ -1,4 +1,4 @@
-varnishtest "Test str vmod"
+varnishtest "count()"
 
 server s1 {
        rxreq
@@ -6,31 +6,27 @@ server s1 {
 } -start
 
 varnish v1 -vcl+backend {
-	import std;
 	import ${vmod_str};
 
-	sub vcl_init {
-		std.log(str.info());
-	}
-
 	sub vcl_deliver {
-		set resp.http.hello = str.hello("World");
-		set resp.http.info = str.info();
+		set resp.http.count = str.count(req.http.string);
 	}
-} -start
-
-logexpect l1 -v v1 -g raw -d 1 {
-	expect 0 0    CLI     {^Rd vcl.load}
-	expect 0 =    VCL_Log {^vmod_str loaded at }
 } -start
 
 client c1 {
-	txreq -url "/"
+	txreq
 	rxresp
-	expect resp.http.hello == "Hello, World"
-	expect resp.http.info  ~  "^vmod_str warmed at "
-}
+	expect resp.http.count == "-1"
 
-client c1 -run
+	txreq -hdr "string: 012345"
+	rxresp
+	expect resp.http.count == "6"
 
-logexpect l1 -wait
+	txreq -hdr "string: 012345 789"
+	rxresp
+	expect resp.http.count == "10"
+
+	txreq -hdr "string: "
+	rxresp
+	expect resp.http.count == "0"
+} -run
