@@ -33,11 +33,11 @@ embedded documentation. This section is for the hello() function.
 
 $Function BOOL startswith(STRING s1, STRING s2)
 
-Returns true is S1 starts with S2.
+Returns true if S1 starts with S2.
 
 $Function BOOL endswith(STRING s1, STRING s2)
 
-Returns true is S1 ends with S2.
+Returns true if S1 ends with S2.
 
 $Function INT count(STRING s)
 
