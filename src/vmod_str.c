@@ -92,18 +92,9 @@ vmod_take(VRT_CTX, VCL_STRING s, VCL_INT n, VCL_INT o)
 
 	s += o;
 
-	if (n >= WS_Reserve(ctx->ws, n + 1)) {
-		WS_Release(ctx->ws, 0);
-		return (NULL);
-	}
-
-	p = ctx->ws->f;				/* Front of workspace area */
-	memcpy(p, s, n);
-	p[n] = '\0';
-
-	/* Update work space with what we've used */
-	WS_Release(ctx->ws, n + 1);
-
+	p = WS_Copy(ctx->ws, s, n + 1);
+	if (p != NULL)
+		p[n] = '\0';
 	return (p);
 }
 
@@ -200,17 +191,8 @@ vmod_split(VRT_CTX, VCL_STRING s, VCL_INT i, VCL_STRING sep)
 		b = e + 1;
 	}
 
-	if (n >= WS_Reserve(ctx->ws, n + 1)) {
-		WS_Release(ctx->ws, 0);
-		return (NULL);
-	}
-
-	p = ctx->ws->f;
-	memcpy(p, b, n);
-	p[n] = '\0';
-
-	/* Update work space with what we've used */
-	WS_Release(ctx->ws, n + 1);
-
+	p = WS_Copy(ctx->ws, b, n + 1);
+	if (p != NULL)
+		p[n] = '\0';
 	return (p);
 }
