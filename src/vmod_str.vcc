@@ -32,3 +32,8 @@ A negative offset means "from the end of the string" and a negative n means
 $Function STRING reverse(STRING s)
 
 Reverse s.
+
+$Function STRING split(STRING S, INT n, STRING sep = " \t")
+
+Split s and return the n-th token. Characters in sep are separators. A negative
+n indicate "from the end of the string".

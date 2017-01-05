@@ -122,3 +122,84 @@ vmod_reverse(VRT_CTX, VCL_STRING s)
 
 	return (p);
 }
+
+unsigned
+isin(char c, const char *set)
+{
+	const char *p = set;
+
+	while (*p) {
+		if (*p == c)
+			return (1);
+		p++;
+	}
+
+	return (0);
+}
+
+VCL_STRING
+vmod_split(VRT_CTX, VCL_STRING s, VCL_INT i, VCL_STRING sep)
+{
+	const char *b, *e = s;
+	char *p;
+	unsigned nomore = 0, n;
+	int inc = 1;
+
+	if (s == NULL || sep == NULL || i == 0)
+		return (NULL);
+
+	/* depending on the direction, set e to be just left or just right of
+	 * the string */
+	if (i < 0) {
+		inc = -1;
+		e += strlen(s);
+	} else
+		e--;
+
+	while (1) {
+		b = e + inc;
+		while (isin(*b, sep)) {
+			if ((inc > 0 && *b == '\0') || (inc < 0 && b == s))
+				return (NULL);
+			b += inc;
+		}
+
+		e = b + inc;
+		while (!isin(*e, sep)) {
+			if ((inc > 0 && *e == '\0') || (inc < 0 && e == s)) {
+				nomore = 1;
+				break;
+			}
+			e += inc;
+		}
+
+		i -= inc;
+		if (i == 0)
+			break;
+		if (nomore)
+			return (NULL);
+	}
+
+	if (e > b) {
+		assert(inc == 1);
+		n = e - b;
+	} else {
+		assert(inc == -1);
+		n = b - e;
+		b = e + 1;
+	}
+
+	if (n >= WS_Reserve(ctx->ws, n + 1)) {
+		WS_Release(ctx->ws, 0);
+		return (NULL);
+	}
+
+	p = ctx->ws->f;
+	memcpy(p, b, n);
+	p[n] = '\0';
+
+	/* Update work space with what we've used */
+	WS_Release(ctx->ws, n + 1);
+
+	return (p);
+}
