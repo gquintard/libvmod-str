@@ -27,7 +27,7 @@ vmod_startswith(VRT_CTX, VCL_STRING s1, VCL_STRING s2)
 	if (s1 == NULL || s2 == NULL)
 		return (0);
 	while (*s2) {
-		if (!*s1)
+		if (*s1 != *s2)
 			return (0);
 		s1++;
 		s2++;

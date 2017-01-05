@@ -14,6 +14,7 @@ varnish v1 -vcl+backend {
 		set resp.http.bar = str.startswith("abc", "abcde");
 		set resp.http.baz = str.startswith("abc", req.http.none);
 		set resp.http.qux = str.startswith(req.http.none, "abc");
+		set resp.http.quux = str.startswith("abcde", "adc");
 	}
 } -start
 
@@ -24,4 +25,5 @@ client c1 {
 	expect resp.http.bar == "false"
 	expect resp.http.baz == "false"
 	expect resp.http.qux == "false"
+	expect resp.http.quux == "false"
 } -run
