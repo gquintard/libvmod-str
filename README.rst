@@ -10,28 +10,18 @@ import str;
 DESCRIPTION
 ===========
 
-Str Varnish vmod demonstrating how to write an out-of-tree Varnish vmod.
+str provides string manipulation functions to avoid regex in VCL. As regex must
+be known at compilation time, you can't use them to check if a header contains
+the content of another one. With str, this would look like::
 
-Implements the traditional Hello World as a vmod.
+        if (str.contains(req.http.foo, req.http.bar)) {
+            ....
+        }
 
 FUNCTIONS
 =========
 
-hello
------
-
-Prototype
-        ::
-
-                hello(STRING S)
-Return value
-	STRING
-Description
-	Returns "Hello, " prepended to S
-Str
-        ::
-
-                set resp.http.hello = str.hello("World");
+Functions are listed in src/vmod_str.vcc.
 
 INSTALLATION
 ============
@@ -90,8 +80,8 @@ In your VCL you could then use this vmod along the following lines::
         import str;
 
         sub vcl_deliver {
-                # This sets resp.http.hello to "Hello, World"
-                set resp.http.hello = str.hello("World");
+                # This sets resp.http.hello to "Hello"
+                set resp.http.hello = str.take("Hello, World", 5);
         }
 
 COMMON PROBLEMS
