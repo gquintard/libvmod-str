@@ -170,3 +170,30 @@ vmod_take(VRT_CTX, VCL_STRING s, VCL_INT n, VCL_INT o)
 
 	return (p);
 }
+
+VCL_STRING
+vmod_reverse(VRT_CTX, VCL_STRING s)
+{
+	char *p;
+	size_t l, l2;
+
+	if (s == NULL)
+		return (NULL);
+
+	l = l2 = strlen(s);
+	if (l >= WS_Reserve(ctx->ws, l + 1)) {
+		WS_Release(ctx->ws, 0);
+		return (NULL);
+	}
+
+	p = ctx->ws->f;
+	while(l2) {
+		p[l - l2] = s[l2 - 1];
+		l2--;
+	}
+	p[l] ='\0';
+
+	WS_Release(ctx->ws, l + 1);
+
+	return (p);
+}

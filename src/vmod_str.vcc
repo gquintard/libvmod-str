@@ -50,3 +50,7 @@ character, the return string is truncated. If S is NULL, NULL is returned.
 
 A negative offset means "from the end of the string" and a negative n means
 "left of the offset".
+
+$Function STRING reverse(STRING s)
+
+Reverse s.
