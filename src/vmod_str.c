@@ -9,7 +9,7 @@
 #include "cache/cache.h"
 
 #include "vtim.h"
-#include "vcc_str_if.h"
+#include "vcc_if.h"
 
 VCL_INT
 vmod_count(VRT_CTX, VCL_STRING s)

@@ -7,7 +7,7 @@ server s1 {
 
 varnish v1 -vcl+backend {
 	import std;
-	import ${vmod_str};
+	import str from "${vmod_topbuild}/src/.libs/libvmod_str.so";
 
 	sub vcl_deliver {
 		set resp.http.foo = str.take("abcde", 3);
