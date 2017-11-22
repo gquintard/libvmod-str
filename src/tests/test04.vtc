@@ -10,10 +10,10 @@ varnish v1 -vcl+backend {
 	import str from "${vmod_topbuild}/src/.libs/libvmod_str.so";
 
 	sub vcl_deliver {
-		set resp.http.foo = str.take("abcde", 3);
-		set resp.http.bar = str.take("abcde", 7);
-		set resp.http.baz = str.take("abcde", 0);
-		set resp.http.qux = str.take(req.http.none, 3);
+		set resp.http.foo = str.take("abcde", 3, 0);
+		set resp.http.bar = str.take("abcde", 7, 0);
+		set resp.http.baz = str.take("abcde", 0, 0);
+		set resp.http.qux = str.take(req.http.none, 3, 0);
 	}
 } -start
 

@@ -8,7 +8,6 @@
 #include "vrt.h"
 #include "cache/cache.h"
 
-#include "vtim.h"
 #include "vcc_if.h"
 
 VCL_INT

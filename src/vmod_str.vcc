@@ -27,7 +27,7 @@ $Function BOOL contains(STRING s1, STRING s2)
 
 Returns true if S1 contains S2.
 
-$Function STRING take(STRING s, INT n, INT offset = 0)
+$Function STRING take(STRING s, INT n, INT offset)
 
 Returns a string composed of the N first characters of S. If S is shorter than N
 character, the return string is truncated. If S is NULL, NULL is returned.
@@ -39,7 +39,7 @@ $Function STRING reverse(STRING s)
 
 Reverse s.
 
-$Function STRING split(STRING S, INT n, STRING sep = " \t")
+$Function STRING split(STRING S, INT n, STRING sep)
 
 Split s and return the n-th token. Characters in sep are separators. A negative
 n indicate "from the end of the string".
