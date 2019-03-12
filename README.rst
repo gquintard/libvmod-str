@@ -10,6 +10,8 @@ import str;
 DESCRIPTION
 ===========
 
+**Note: the master branch targets Varnish 6.0 and up.**
+
 str provides string manipulation functions to avoid regex in VCL. As regex must
 be known at compilation time, you can't use them to check if a header contains
 the content of another one. With str, this would look like::

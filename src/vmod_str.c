@@ -2,10 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-/* need vcl.h before vrt.h for vmod_evet_f typedef */
-#include "vcl.h"
-#include "vrt.h"
 #include "cache/cache.h"
 
 #include "vtim.h"
