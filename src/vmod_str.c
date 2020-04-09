@@ -106,7 +106,7 @@ vmod_reverse(VRT_CTX, VCL_STRING s)
 		return (NULL);
 
 	l = l2 = strlen(s);
-	if (l >= WS_Reserve(ctx->ws, l + 1)) {
+	if (l >= WS_ReserveSize(ctx->ws, l + 1)) {
 		WS_Release(ctx->ws, 0);
 		return (NULL);
 	}
